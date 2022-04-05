@@ -7,25 +7,31 @@ const int step =40;
 SDL_Surface *g_screen = NULL;
 SDL_Surface *g_background =NULL;
 SDL_Event g_event;
+SDL_Window* window;
+SDL_Renderer* renderer;
+
 
 
 SDL_Texture* loadTexture( string path,SDL_Renderer* renderer);
+
+void Display(int x, int y,string path){
+    SDL_Texture *img1 =loadTexture(path.c_str(),renderer);
+    SDL_Rect img1Rect ;
+    SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
+    img1Rect.x=x;
+    img1Rect.y=y;
+    SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
+    SDL_RenderPresent(renderer);
+}
 int main (int argc, char* argv[]){
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+
     initSDL(window, renderer);
 
     SDL_Texture *background =loadTexture("img\\bgr.jpg", renderer);
     SDL_RenderCopy(renderer,background,NULL,NULL);               //Khoi tao background
     SDL_RenderPresent(renderer);
 
-    SDL_Texture *hide =loadTexture("img\\hide.png",renderer);
-    SDL_Rect hideRect ;
-    SDL_QueryTexture (hide,NULL,NULL, &hideRect.w,&hideRect.h);
-    hideRect.x=50;
-    hideRect.y=100;
-    SDL_RenderCopy(renderer,hide,NULL,&hideRect);
-    SDL_RenderPresent(renderer);
+    Display(50,100,"img\\hide.png");
     SDL_Event e;
     SDL_Rect filled_rect;
         filled_rect.x = SCREEN_WIDTH / 2;
@@ -48,13 +54,14 @@ int main (int argc, char* argv[]){
         // Nếu chuột (mouse) được nhấn (xuống)
         if (e.type == SDL_MOUSEBUTTONDOWN) {
             if( e.button.x>50 && e.button.x<250 && e.button.y>100 && e.button.y<300) {
-                SDL_Texture *img1 =loadTexture("img\\cat1.png",renderer);
-                SDL_Rect img1Rect ;
-                SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
-                img1Rect.x=50;
-                img1Rect.y=100;
-                SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
-                SDL_RenderPresent(renderer);
+                    Display(50,100,"img//cat2.png");
+//                SDL_Texture *img1 =loadTexture("img\\cat1.png",renderer);
+//                SDL_Rect img1Rect ;
+//                SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
+//                img1Rect.x=50;
+//                img1Rect.y=100;
+//                SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
+//                SDL_RenderPresent(renderer);
             }
         }
 

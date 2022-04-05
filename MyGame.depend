@@ -1,0 +1,36 @@
+# depslib dependency file v1.0
+1647140877 source:d:\code block\ltnc bai tap\mygame\gioithieu.cpp
+	<iostream>
+	<SDL.h>
+
+1647145235 source:d:\code block\ltnc bai tap\mygame\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1647144599 source:d:\code block\ltnc bai tap\mygame\maingame.cpp
+	<iostream>
+	<SDL.h>
+	<windows.h>
+
+1647148932 source:d:\code block\ltnc bai tap\test 1\mygame\main.cpp
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1649086553 source:d:\code block\ltnc bai tap\test 1\mygame\maingame.cpp
+	<iostream>
+	"SDL_utils.h"
+
+1648269299 d:\code block\ltnc bai tap\test 1\mygame\sdl_utils.h
+	<bits/stdc++.h>
+	<SDL.h>
+	<windows.h>
+	<SDL_image.h>
+	<SDL_events.h>
+
+1648269299 source:d:\code block\ltnc bai tap\test 1\mygame\sdl_utils.cpp
+	"SDL_utils.h"
+
+1649124406 source:d:\code block\ltnc bai tap\test 1\mygame\texture.cpp
+

@@ -21,7 +21,9 @@ void Display_img(int x, int y,string path){
     SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
     SDL_RenderPresent(renderer);
 }
-string img[5][5];
+string img[3][4];
+int tmp[3][4] = {};
+string tmparray[12];
 string GetPath(int x,int y)
 {
    int x0=200,y0=150,x1=1000,y1=750;
@@ -58,11 +60,32 @@ void GetLoca(int &x,int &y)
     x = (x-x0)*4/(x1-x0);
     y = (y-y0)*3/(y1-y0);
 }
-
-int main (int argc, char* argv[]){
-
+void loadpath()
+{
+    int k=1;
+    int n=0;
+    for(int i=0;i<12;i++)
+    {
+        tmparray[i]="img\\" + to_string(k) + ".png";
+        if(k<6)k++;
+        else
+        {
+            k=1;
+        }
+    }
+    random_shuffle(begin(tmparray),end(tmparray));
+    for(int i=0;i<3;i++)
+    {
+        for(int j=0;j<4;j++)
+        {
+            img[i][j]=tmparray[n];
+            n++;
+        }
+    }
+}
+void showgame()
+{
     initSDL(window, renderer);
-
     SDL_Texture *background =loadTexture("img\\bgr.jpg", renderer);
     SDL_RenderCopy(renderer,background,NULL,NULL);               //Khoi tao background
     SDL_RenderPresent(renderer);
@@ -70,43 +93,56 @@ int main (int argc, char* argv[]){
     for(int i=0;i<3;i++){
         for(int j=0;j<4;j++){
             Display_hide(x,y);
-            x+=d;
+            x+=200;
         }
-        y+=d;
+        y+=200;
         x=200;
     }
-    int k=rand()%6 +1;
-    for(int i=0;i<3;i++){
-        for(int j=0;j<4;j++){
-        img[i][j]="img\\" + to_string(k) + ".png";
-        if(k<6){k++;}
-        else {k=1;
-        }
-    }
+    loadpath();
 }
+void rungame()
+{
     SDL_Event e;
     int check=0;
     while(check<6){
         int a,b,c,d;
-        GetEvent(e,a,b);
+        while (true)
+        {
+            GetEvent(e,a,b);
         GetLoca(a,b);
+            if(tmp[b][a]==0)
+        {
+            tmp[b][a]=1;
         Display_img((a+1)*200,150+b*200,img[b][a]);
-        SDL_Delay(1000);
-        GetEvent(e,c,d);
-        while(true){
-        GetLoca(c,d);
-        if(c!=a || b!=d){break;}
+        break;
         }
-        Display_img((c+1)*200,150+d*200,img[d][c]);
+        }
+        while(true){
+        GetEvent(e,c,d);
+        GetLoca(c,d);
+        if(tmp[d][c]==0){
+              tmp[d][c]=1;
+              Display_img((c+1)*200,150+d*200,img[d][c]);
+              break;
+        }
+        }
         SDL_Delay(1000);
         if(img[b][a]==img[d][c]){
             check++;
         }
-        else {Display_hide((c+1)*200,150+d*200);
+        else {
+              Display_hide((c+1)*200,150+d*200);
               Display_hide((a+1)*200,150+b*200);
+              tmp[b][a]=0;
+              tmp[d][c]=0;
         }
     }
     cout<<"You Win";
+}
+int main (int argc, char* argv[]){
+
+    showgame();
+    rungame();
     waitUntilKeyPressed();
     quitSDL(window, renderer);
     return 0;

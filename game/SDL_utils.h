@@ -21,6 +21,7 @@ void refreshScreen(SDL_Window* window, SDL_Renderer* renderer,
     const SDL_Rect& filled_rect, const bool leftMouse = false);
 SDL_Texture* loadTexture( string path,SDL_Renderer* renderer);
 bool GameOver(int check);
-
+void Display_hide(int x, int y,SDL_Renderer* renderer);
+void Display_img(int x, int y,string path,SDL_Renderer* renderer);
 void waitUntilKeyPressed();
 #endif // SDL_UTILS_H_

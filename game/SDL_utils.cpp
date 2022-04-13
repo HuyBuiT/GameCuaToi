@@ -82,3 +82,21 @@ void refreshScreen(SDL_Window* window, SDL_Renderer* renderer,
    //Khi chạy ở máy thực hành WinXP ở trường (máy ảo)
    //SDL_UpdateWindowSurface(window);
 }
+void Display_hide(int x, int y,SDL_Renderer* renderer){
+    SDL_Texture *img1 =loadTexture("img\\hide.png",renderer);
+    SDL_Rect img1Rect ;
+    SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
+    img1Rect.x=x;
+    img1Rect.y=y;
+    SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
+    SDL_RenderPresent(renderer);
+    }
+void Display_img(int x, int y,string path,SDL_Renderer* renderer){
+    SDL_Texture *img1 =loadTexture(path.c_str(),renderer);
+    SDL_Rect img1Rect ;
+    SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
+    img1Rect.x=x;
+    img1Rect.y=y;
+    SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
+    SDL_RenderPresent(renderer);
+}

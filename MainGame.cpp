@@ -1,9 +1,7 @@
 #include<iostream>
-#include "SDL_utils.h"
-SDL_Window* window;
-SDL_Renderer* renderer;
-const int d=200;
-void Display_hide(int x, int y){
+#include "Game.h"
+
+/*void Display_hide(int x, int y){
     SDL_Texture *img1 =loadTexture("img\\hide.png",renderer);
     SDL_Rect img1Rect ;
     SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
@@ -138,14 +136,14 @@ void rungame()
         }
     }
     cout<<"You Win";
-}
+}*/
 int main (int argc, char* argv[]){
-
+    SDL_Window* window;
+    SDL_Renderer* renderer;
     showgame();
     rungame();
     waitUntilKeyPressed();
     quitSDL(window, renderer);
     return 0;
-
 }
 

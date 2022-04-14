@@ -34,18 +34,18 @@
 
 1649124406 source:d:\code block\ltnc bai tap\test 1\mygame\texture.cpp
 
-1649261970 source:d:\code block\ltnc bai tap\test 1\mygame\github_game\maingame.cpp
+1649932087 source:d:\code block\ltnc bai tap\test 1\mygame\github_game\maingame.cpp
 	<iostream>
-	"SDL_utils.h"
+	"Game.h"
 
-1649251677 d:\code block\ltnc bai tap\test 1\mygame\github_game\sdl_utils.h
+1649932034 d:\code block\ltnc bai tap\test 1\mygame\github_game\sdl_utils.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<windows.h>
 	<SDL_image.h>
 	<SDL_events.h>
 
-1649237742 source:d:\code block\ltnc bai tap\test 1\mygame\github_game\sdl_utils.cpp
+1649932034 source:d:\code block\ltnc bai tap\test 1\mygame\github_game\sdl_utils.cpp
 	"SDL_utils.h"
 
 1649129155 source:d:\code block\ltnc bai tap\test 1\mygame\github_game\texture.cpp
@@ -53,4 +53,10 @@
 
 1649129281 d:\code block\ltnc bai tap\test 1\mygame\github_game\texture.h
 	"SDL_utils.h"
+
+1649932034 d:\code block\ltnc bai tap\test 1\mygame\github_game\game.h
+	"SDL_utils.h"
+
+1649932292 source:d:\code block\ltnc bai tap\test 1\mygame\github_game\game.cpp
+	"Game.h"
 

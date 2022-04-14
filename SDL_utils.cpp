@@ -1,4 +1,3 @@
-
 #include "SDL_utils.h"
 void initSDL(SDL_Window* &window, SDL_Renderer* &renderer)
 {

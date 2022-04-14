@@ -1,11 +1,27 @@
-#include<iostream>
-#include <bits/stdc++.h>
-#include "SDL_utils.h"
-SDL_Window* window;
-SDL_Renderer* renderer;
+#include "Game.h"
 string img[3][4];
 int tmp[3][4] = {};
 string tmparray[12];
+SDL_Window* window;
+SDL_Renderer* renderer;
+void Display_hide(int x, int y,SDL_Renderer* renderer){
+    SDL_Texture *img1 =loadTexture("img\\hide.png",renderer);
+    SDL_Rect img1Rect ;
+    SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
+    img1Rect.x=x;
+    img1Rect.y=y;
+    SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
+    SDL_RenderPresent(renderer);
+    }
+void Display_img(int x, int y,string path,SDL_Renderer* renderer){
+    SDL_Texture *img1 =loadTexture(path.c_str(),renderer);
+    SDL_Rect img1Rect ;
+    SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
+    img1Rect.x=x;
+    img1Rect.y=y;
+    SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
+    SDL_RenderPresent(renderer);
+}
 string GetPath(int x,int y)
 {
    int x0=200,y0=150,x1=1000,y1=750;
@@ -30,15 +46,11 @@ void GetEvent(SDL_Event e,int &a,int &b){
 
         // Nếu chuột (mouse) được nhấn (xuống)
         if (e.type == SDL_MOUSEBUTTONDOWN) {
-             if(e.button.x<200||e.button.x>1000||e.button.y<150||e.button.y>750) continue;
-             else
-             {
              a=e.button.x;
              b=e.button.y;
              break;
             }
      }
-}
 }
 void GetLoca(int &x,int &y)
 {
@@ -69,7 +81,6 @@ void loadpath()
         }
     }
 }
-
 void showgame()
 {
     initSDL(window, renderer);
@@ -126,12 +137,3 @@ void rungame()
     }
     cout<<"You Win";
 }
-int main (int argc, char* argv[]){
-showgame();
-rungame();
-waitUntilKeyPressed();
-quitSDL(window, renderer);
-    return 0;
-
-}
-

@@ -52,32 +52,8 @@ void waitUntilKeyPressed()
     SDL_Event e;
     while (true) {
         if ( SDL_WaitEvent(&e) != 0 &&
-             (e.type == SDL_KEYDOWN || e.type == SDL_QUIT) )
+             ( e.key.keysym.sym == SDLK_ESCAPE || e.type == SDL_QUIT) )
             return;
         SDL_Delay(100);
     }
-}
-bool GameOver(int check){
-    if(check==6) return true;
-    else return false;
-}
-void refreshScreen(SDL_Window* window, SDL_Renderer* renderer,
-    const SDL_Rect& filled_rect, const bool leftMouse)
-{
-    // Đặt màu vẽ thành xanh lam (blue), xoá màn hình về màu xanh lam.
-    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);   // blue
-    SDL_RenderClear(renderer);
-
-    // Vẽ hình chữ nhật với màu tuỳ thuộc nút chuột trái hay phải được nhấn
-    if (leftMouse)
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);   // red
-    else
-        SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);   // green
-    SDL_RenderFillRect(renderer, &filled_rect);
-
-    // Dùng lệnh hiển thị (đưa) hình đã vẽ ra mành hình
-   //Khi thông thường chạy với môi trường bình thường ở nhà
-    SDL_RenderPresent(renderer);
-   //Khi chạy ở máy thực hành WinXP ở trường (máy ảo)
-   //SDL_UpdateWindowSurface(window);
 }

@@ -2,6 +2,7 @@
 string img[3][4];
 int tmp[3][4] = {};
 string tmparray[12];
+string yw[3][4];
 SDL_Window* window;
 SDL_Renderer* renderer;
 void Display_hide(int x, int y,SDL_Renderer* renderer){
@@ -30,7 +31,7 @@ string GetPath(int x,int y)
    return img[row][col];
 
 }
-void GetEvent(SDL_Event e,int &a,int &b){
+void GetEventFromMouse(SDL_Event e,int &a,int &b){
     while (true) {
         // Đợi 10 mili giây
         SDL_Delay(10);
@@ -78,6 +79,7 @@ void loadpath()
         {
             img[i][j]=tmparray[n];
             n++;
+            yw[i][j]="img\\YouWin_"+to_string(n)+".png";
         }
     }
 }
@@ -98,7 +100,7 @@ void showgame()
     }
     loadpath();
 }
-void rungame()
+void rungame(Mix_Chunk *flip,Mix_Chunk *correct,Mix_Chunk *win )
 {
     SDL_Event e;
     int check=0;
@@ -106,27 +108,33 @@ void rungame()
         int a,b,c,d;
         while (true)
         {
-            GetEvent(e,a,b);
-        GetLoca(a,b);
+            GetEventFromMouse(e,a,b);
+            GetLoca(a,b);
             if(tmp[b][a]==0)
         {
             tmp[b][a]=1;
-        Display_img((a+1)*200,150+b*200,img[b][a],renderer);
+            Display_img((a+1)*200,150+b*200,img[b][a],renderer);
+            Mix_PlayChannel(-1,flip,0);
         break;
         }
         }
         while(true){
-        GetEvent(e,c,d);
-        GetLoca(c,d);
+            GetEventFromMouse(e,c,d);
+            GetLoca(c,d);
         if(tmp[d][c]==0){
-              tmp[d][c]=1;
-              Display_img((c+1)*200,150+d*200,img[d][c],renderer);
+            tmp[d][c]=1;
+            Display_img((c+1)*200,150+d*200,img[d][c],renderer);
+            if(!Mix_PlayChannel(-1,flip,0)) Mix_PlayChannel(-1,flip,0);
               break;
         }
         }
         SDL_Delay(1000);
         if(img[b][a]==img[d][c]){
             check++;
+            Mix_PlayChannel(-1,correct,0);
+            SDL_Delay(100);
+            Display_img((a+1)*200,150+b*200,yw[b][a],renderer);
+            Display_img((c+1)*200,150+d*200,yw[d][c],renderer);
         }
         else {
               Display_hide((c+1)*200,150+d*200,renderer);
@@ -135,5 +143,41 @@ void rungame()
               tmp[d][c]=0;
         }
     }
-    cout<<"You Win";
+    SDL_Delay(500);
+    Mix_PlayChannel(-1,win,0);
+}
+void startgame()
+{
+    initSDL(window, renderer);
+    SDL_Texture *Sbackground =loadTexture("img\\StartBGR.png",renderer);
+    SDL_RenderCopy(renderer,Sbackground,NULL,NULL);               //Khoi tao background
+    SDL_RenderPresent(renderer);
+}
+void showrule()
+{
+    SDL_Texture *Sbackground =loadTexture("img\\Rule.png",renderer);
+    SDL_RenderCopy(renderer,Sbackground,NULL,NULL);
+    SDL_RenderPresent(renderer);
+}
+
+void GetEventFromKey(SDL_Event e,int &a){
+    while (true) {
+        // Đợi 10 mili giây
+        SDL_Delay(10);
+
+        // Nếu không có sự kiện gì thì tiếp tục trở về đầu vòng lặpd
+        if ( SDL_WaitEvent(&e) == 0) continue;
+
+        // Nếu sự kiện là kết thúc (như đóng cửa sổ) thì thoát khỏi vòng lặp
+        if (e.type == SDL_QUIT) break;
+
+        // Nếu nhấn phìm ESC thì thoát khỏi vòng lặp
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) break;
+
+        // Nếu chuột (mouse) được nhấn (xuống)
+        if (e.type == SDL_KEYDOWN) {
+             a=e.key.keysym.sym;
+             break;
+            }
+     }
 }

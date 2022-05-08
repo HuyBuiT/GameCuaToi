@@ -6,6 +6,7 @@
 #include<windows.h>
 #include<SDL_image.h>
 #include<SDL_events.h>
+#include<SDL_mixer.h>
 using namespace std;
 const string WINDOW_TITLE = "Memory Card";
 const int SCREEN_HEIGHT=800;

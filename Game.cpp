@@ -1,11 +1,8 @@
 #include "Game.h"
 string img[3][4];
-int tmp[3][4] = {};
 string tmparray[12];
 string yw[3][4];
-SDL_Window* window;
-SDL_Renderer* renderer;
-void Display_hide(int x, int y,SDL_Renderer* renderer){
+void Display_hide(int x, int y,SDL_Renderer* &renderer){
     SDL_Texture *img1 =loadTexture("img\\hide.png",renderer);
     SDL_Rect img1Rect ;
     SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
@@ -14,7 +11,7 @@ void Display_hide(int x, int y,SDL_Renderer* renderer){
     SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
     SDL_RenderPresent(renderer);
     }
-void Display_img(int x, int y,string path,SDL_Renderer* renderer){
+void Display_img(int x, int y,string path,SDL_Renderer* &renderer){
     SDL_Texture *img1 =loadTexture(path.c_str(),renderer);
     SDL_Rect img1Rect ;
     SDL_QueryTexture (img1,NULL,NULL, &img1Rect.w,&img1Rect.h);
@@ -23,8 +20,7 @@ void Display_img(int x, int y,string path,SDL_Renderer* renderer){
     SDL_RenderCopy(renderer,img1,NULL,&img1Rect);
     SDL_RenderPresent(renderer);
 }
-string GetPath(int x,int y)
-{
+string GetPath(int x,int y){
    int x0=200,y0=150,x1=1000,y1=750;
    int col = (x-x0)*4/(x1-x0);
    int row = (y-y0)*3/(y1-y0);
@@ -47,20 +43,20 @@ void GetEventFromMouse(SDL_Event e,int &a,int &b){
 
         // Nếu chuột (mouse) được nhấn (xuống)
         if (e.type == SDL_MOUSEBUTTONDOWN) {
+                if(e.button.x>=200 &&e.button.y>=150&&e.button.x<=1000&&e.button.y<750){
              a=e.button.x;
              b=e.button.y;
              break;
+                }
             }
      }
 }
-void GetLoca(int &x,int &y)
-{
+void GetLoca(int &x,int &y){
    int x0=200,y0=150,x1=1000,y1=750;
     x = (x-x0)*4/(x1-x0);
     y = (y-y0)*3/(y1-y0);
 }
-void loadpath()
-{
+void loadpath(){
     int k=1;
     int n=0;
     for(int i=0;i<12;i++)
@@ -83,9 +79,7 @@ void loadpath()
         }
     }
 }
-void showgame()
-{
-    initSDL(window, renderer);
+void showgame(SDL_Window * &window,SDL_Renderer * &renderer){
     SDL_Texture *background =loadTexture("img\\bgr.jpg", renderer);
     SDL_RenderCopy(renderer,background,NULL,NULL);               //Khoi tao background
     SDL_RenderPresent(renderer);
@@ -98,25 +92,23 @@ void showgame()
         y+=200;
         x=200;
     }
-    loadpath();
 }
-void rungame(Mix_Chunk *flip,Mix_Chunk *correct,Mix_Chunk *win )
-{
+void rungame(Mix_Chunk *flip,Mix_Chunk *correct,Mix_Chunk *win,SDL_Window * &window,SDL_Renderer * &renderer){
+    int tmp[3][4] = {};
+    loadpath();
     SDL_Event e;
     int check=0;
     while(check<6){
         int a,b,c,d;
-        while (true)
-        {
+        while (true){
             GetEventFromMouse(e,a,b);
             GetLoca(a,b);
-            if(tmp[b][a]==0)
-        {
+            if(tmp[b][a]==0){
             tmp[b][a]=1;
             Display_img((a+1)*200,150+b*200,img[b][a],renderer);
             Mix_PlayChannel(-1,flip,0);
         break;
-        }
+            }
         }
         while(true){
             GetEventFromMouse(e,c,d);
@@ -126,7 +118,7 @@ void rungame(Mix_Chunk *flip,Mix_Chunk *correct,Mix_Chunk *win )
             Display_img((c+1)*200,150+d*200,img[d][c],renderer);
             if(!Mix_PlayChannel(-1,flip,0)) Mix_PlayChannel(-1,flip,0);
               break;
-        }
+            }
         }
         SDL_Delay(1000);
         if(img[b][a]==img[d][c]){
@@ -146,15 +138,13 @@ void rungame(Mix_Chunk *flip,Mix_Chunk *correct,Mix_Chunk *win )
     SDL_Delay(500);
     Mix_PlayChannel(-1,win,0);
 }
-void startgame()
-{
+void startgame(SDL_Window * &window,SDL_Renderer * &renderer){
     initSDL(window, renderer);
-    SDL_Texture *Sbackground =loadTexture("img\\StartBGR.png",renderer);
+    SDL_Texture *Sbackground =loadTexture("img\\StartBGR.jpg",renderer);
     SDL_RenderCopy(renderer,Sbackground,NULL,NULL);               //Khoi tao background
     SDL_RenderPresent(renderer);
 }
-void showrule()
-{
+void showrule(SDL_Window * &window,SDL_Renderer * &renderer){
     SDL_Texture *Sbackground =loadTexture("img\\Rule.png",renderer);
     SDL_RenderCopy(renderer,Sbackground,NULL,NULL);
     SDL_RenderPresent(renderer);
